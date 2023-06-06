@@ -9,7 +9,16 @@ from tensorflow.keras.losses import sparse_categorical_crossentropy
 from tensorflow.keras.models import load_model
 
 model_path = './luizgonzaga_gen_mjr.h5'
-model = load_model('./luizgonzaga_gen_mjr.h5')
+
+model = Sequential()
+# Defina a arquitetura do modelo
+
+# Carregue os pesos salvos
+model.load_weights('./luizgonzaga_gen_mjr.h5')
+
+
+# model = load_model('./luizgonzaga_gen_mjr.h5')
+
 
 # Length of the vocabulary in chars
 vocab = ['\n', ' ', '!', '"', "'", '(', ')', ',', '-', '.', '0', '2', '3', '5', '7', ':', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '}', 'À', 'É', 'Ê', 'Í', 'Ó', 'Ô', 'à', 'á', 'â', 'ã', 'ç', 'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú', 'ü', '’', '\ufeff']

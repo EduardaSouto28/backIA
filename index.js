@@ -1,48 +1,26 @@
+// 
+
 const express = require('express');
-const cors = require('cors');
-const { spawn } = require('child_process');
+const tf = require('@tensorflow/tfjs-node');
+const { loadModel, generateText, vocab, char_to_ind, ind_to_char } = require('./teste');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(cors());
+// Carregar o modelo
+const model = loadModel('./luizgonzaga_gen_mjr.h5');
 
-function generateText(startSeed) {
-    const pythonProcess = spawn('python', [
-        './generate_text.py',
-        startSeed,
-    ]);
+app.get('/generate-text', (req, res) => {
+  const startSeed = req.query.seed;
+//   const genSize = Number(req.query.size);
+//   const temp = Number(req.query.temp);
 
-  return new Promise((resolve, reject) => {
-    let generatedText = '';
+  // Gerar o texto usando a função generate_text
+  const generatedText = generateText(model, startSeed, genSize, temp);
 
-    pythonProcess.stdout.on('data', (data) => {
-      generatedText += data.toString();
-    });
-
-    pythonProcess.stderr.on('data', (data) => {
-      console.error(data.toString());
-      reject(new Error('An error occurred while generating text'));
-    });
-
-    pythonProcess.on('close', () => {
-      resolve(generatedText);
-    });
-  });
-}
-
-app.post('/', async (req, res) => {
-  const startSeed = 'Maria';
-  console.log(startSeed)
-
-  try {
-    const generatedText = await generateText(startSeed);
-    res.json({ generatedText });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  res.json({ generatedText });
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
