@@ -17,14 +17,6 @@ const loadModel = async () => {
   return model;
 };
 
-// Make prediction based on the loaded model and input text
-/*const makePrediction = async (model, text) => {
-  const tensor = tf.tensor2d([text]);
-  const tensorResult = model.predict(tensor);
-  const response = tensorResult.arraySync()[0];
-  return response;
-};*/
-
 const makePrediction = async (model, text) => {
   const tensor = tf.tensor2d([text]);
   const tensorResult = model.predict(tensor);
